@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>jscl-playground</title>
+    
+    <!-- menu, jQuery -->
+    <script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>    
+    <script src="js/jquery.menu.js"></script>
+    <link href="css/menu.css" rel="stylesheet" type="text/css" />
+    
+    <!-- CodeMirror -->
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/codemirror/codemirror.js"></script>
+    <link rel="stylesheet" href="css/codemirror.css">    
+    <script src="js/codemirror/commonlisp.js"></script>
+    <script src="js/codemirror/matchbrackets.js"></script>
+    
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/bootstrap.min.js"></script>
+    
+  </head>
+  
+  <body>
+    <!-- container -->
+    <div class="container">      
+     <!-- menu -->
+      <p><img src="images/jscl.png" alt="jscl" width="50px" height="50px">
+	      <span style="font-size:25px; vertical-align:middle">JSCL Playground</span>
+      </p>
+
+     <div id="menu-bar">
+      <ul class="main-menu">
+          <li>File
+            <ul>
+              <li><a href="javascript:void(0)">Open</a>
+                <ul>
+                  <li id="load-turtle">turtle</li>
+                  <li id="load-ball">ball</li>
+                  <li></li>		  
+                </ul>		
+              </li>
+              <li class="separator"></li>	      		    
+              <li><a href="javascript:void(0)">Save</a></li>
+              <li class="separator"></li>
+              <li><a href="javascript:void(0)">Load</a></li>
+            </ul>
+          </li>
+          <li>Help
+            <ul>
+              <li>Usage</li>
+              <li class="separator"></li>
+              <li><a href="https://t-cool.github.io/">About us</a></li>
+            </ul>
+          </li>
+      </ul>
+      </div>
+      <div id="left" style="float: left; height:600px;">
+        <!-- editor -->    
+        <form>
+	        <textarea id="code" name="code" style="float: left; width:500px; height:450px;"></textarea>
+        </form>
+        <!-- REPL -->    
+        <div id="iframe-content" class="navbarCollapse" style="float: left; width:500px; height:200px;">
+          <div id="fixed-wrapper"><div id="console"></div></div>
+        </div>
+      </div>
+
+      <div id="right" style="float: left; width:600px; height:600px;">
+        <!-- canvas -->
+        <canvas id="canvas" style="float: right; width:600px; height:600px; border: 1px dashed black;"></canvas>
+      </div>
+
+    </div>
+    <!-- end container -->
+    
+    <!-- :footer -->
+    <div style="border-top: 1px solid #ccc; margin-top: 20px">
+      <div class="container" style="text-align: center;">© 2018- t-cool</div>
+    </div>
+    <!-- :footer end-->
+
+    
+<!-- Load JSCL REPL -->
+<script src="js/jscl/jqconsole.min.js" type="text/javascript" charset="utf-8"></script>
+<script>var jqconsole = $('#console').jqconsole('', '');</script>
+<script src="js/jscl/jscl.js" type="text/javascript"></script>
+<script src="js/jscl/repl-web.js" type="text/javascript"></script>
+
+<script>
+  $(document).ready(function() {
+    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+      lineNumbers: false,
+      lineWrapping: true,
+      fullScreen: true,
+      smartIndent: false,
+      undoDepth: 10000,
+      autofocus: true,
+      matchBrackets: true,
+      styleActiveLine: true,
+      //autoCloseBrackets: {pairs: "()\"\""},
+//      theme: 'mylisp',
+//      keyMap: "emacs",
+      extraKeys: {
+        'Cmd-E': function() {
+          jscl.evaluateString('(progn ' + getHighlighted() + ')');
+        },
+        "F2": function(codeMirror) {
+          toREPL(editor);
+        }
+      }
+    });
+
+    function getHighlighted(){
+      // current cursor's line number
+      let line = editor.doc.getCursor().line; 
+      // accumulate the letters one by one
+      let acc = []; // array for accumulating the letters
+      // i, j, k for counter
+      let i = editor.doc.getCursor().ch; // current cursor position
+      let j = 1;
+      let k; // cursor position moving left
+      // when closing_bracket becomes 0, the function returns the code
+      let closing_bracket = 1;
+      do{
+        k = i - j;
+        if (editor.doc.getLine(line)[k] == ")"){
+          closing_bracket++;
+        }
+        if (editor.doc.getLine(line)[k] == "("){
+          closing_bracket--;
+        }
+        acc.push(editor.doc.getLine(line)[k]); //20-0=20, 20-1=19, 20-2=18...
+        j++; // 0  ->  1 ->  2
+        // change the line
+        if(k < 1){
+          line--;
+          editor.moveV(-1, "line"); // upto the previous line
+          editor.execCommand("goLineEnd"); // move the cursor to the end of the line
+          i = editor.doc.getCursor().ch; // set the cursor position again
+          j = 1; // set the counter again
+        }
+        if(closing_bracket == 0){
+          break;
+        }
+      } while (closing_bracket > 1) 
+      acc.reverse();
+      result = acc.join("");
+      editor.moveV(1, "line");
+      return result;
+    }
+
+    function toREPL(x){
+      $('#iframe-content').find('span.jqconsole-prompt:last-child span span:last-child').append("(progn \n" + x.getValue() + ")");
+      jqconsole._HandleEnter();
+    }
+
+    function getCodes(){ return editor.getValue();}
+
+    $("#load-turtle").on('click',function(){
+      $.getScript("js_canvas/turtle.js");
+      $.get("lisp/turtle.lisp", function(e) {
+          editor.setValue(e);
+      }, "text");
+    });
+
+    $("#load-ball").on('click',function(){
+      $.getScript("js_canvas/ball.js");
+      $.get("lisp/ball.lisp", function(e) {
+          editor.setValue(e);
+      }, "text");
+      $('#animateButton').append('<input type="button" value="animation" style="height: 20px">')
+    });
+
+    editor.setValue(";; Cmd-E: evaluate the highlighted S-expression\n;; F2: evaluate all the codes on the editor");
+  });
+	</script>
+
+</body>
+</html>

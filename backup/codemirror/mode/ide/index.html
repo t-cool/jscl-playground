@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>t-cool</title>
+
+<!--
+    <script src="lib/codemirror.js"></script>
+    <link rel="stylesheet" href="lib/codemirror.css">
+    <script src="mode/javascript/javascript.js"></script>
+    <script src="js/codemirror.js"></script>
+    <script src="js/commonlisp.js"></script>
+
+-->
+    
+    <script src="js/matchbrackets.js"></script>
+    <script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+    
+    <!-- aditional css -->
+    <link rel="stylesheet" href="jscl/style.css">
+
+    <!-- Bootstrapの読み込み -->
+    <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/bootstrap.min.js"></script>
+
+    <link rel=stylesheet href="../doc/docs.css">
+
+    <link rel="stylesheet" href="../lib/codemirror.css">
+    <link rel="stylesheet" href="css/codemirror.css">    
+    <script src="../lib/codemirror.js"></script>
+    <script src="commonlisp.js"></script>
+
+    
+  </head>
+  <script>
+    var jqconsole;
+  </script>
+
+  <body>
+    <div>
+      <h1 style="font-color:green">JSCL EDITOR</h1>
+    </div>
+    
+
+    
+    <div class="container"  class="col-lg-6">
+      <div class="col-lg-6">
+	<div id="code-area">
+	  <form>
+	    <textarea id="code11" name="code11"></textarea>
+	  </form>
+	  <script>
+	    var editor11 = CodeMirror.fromTextArea(document.getElementById("code11"),
+	    {lineNumbers: true, matchBrackets: true, scrollbarStyle:null});
+	  </script>
+	</div>	
+      </div>      
+
+    <div id="iframe-content" class="col-lg-3 navbarCollapse">
+      <div id="fixed-wrapper">
+	<div id="console"></div>
+      </div>      
+    </div>
+      
+    </div>
+
+
+    
+    </br>
+
+    <div id="btn-out">
+      <input type="button" value="REPLに送る" onclick="toREPL(editor11);"/>
+    </div>
+    
+    
+<!-- footer:
+<div style="border-top: 1px solid #ccc">
+  <div class="container" style="text-align: center;">© 2018- t-cool</a></div>
+</div>
+ -->
+<!-- :footer -->
+
+<script src="jscl/jqconsole.min.js" type="text/javascript" charset="utf-8"></script>
+<script>jqconsole = $('#console').jqconsole('', '');</script>
+<script src="jscl/jscl.js" type="text/javascript"></script>
+<script src="jscl/repl-web.js" type="text/javascript"></script>
+
+
+<script>
+function toREPL(x){
+    $('#iframe-content').find('span.jqconsole-prompt:last-child span span:last-child').append("(progn \n" + x.getValue() + ")");
+    jqconsole._HandleEnter();
+    /*$('iframe').contents().find('span.jqconsole-prompt:last-child span span:last-child').append(x.getValue());
+      document.getElementById("childframe").contentWindow.jqconsole._HandleEnter();*/
+}
+
+function getCodes(){
+    return editor.getValue();
+}
+
+</script>
+
+</body>
+</html>
