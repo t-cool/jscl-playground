@@ -1,23 +1,23 @@
 var threejs = {};
 
-const renderer = new THREE.WebGLRenderer({canvas: document.querySelector("canvas")});
-const camera = new THREE.PerspectiveCamera(70, 1, 1, 1000);
+let renderer = new THREE.WebGLRenderer({canvas: document.querySelector("canvas")});
+let camera = new THREE.PerspectiveCamera(70, 1, 1, 1000);
 camera.position.z = 400;
 
 // Make a scene
-const scene = new THREE.Scene();
+let scene = new THREE.Scene();
 
 // Make a cube.
-const geometry = new THREE.BoxGeometry(200, 200, 200);
+let geometry = new THREE.BoxGeometry(200, 200, 200);
 
 // Make a material
-const material = new THREE.MeshBasicMaterial({
+let material = new THREE.MeshBasicMaterial({
   color: 0x00FF00,
   wireframe: true,
 });
 
 // Create a mesh based on the geometry and material
-const mesh = new THREE.Mesh(geometry, material);
+let mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
 function resize() {

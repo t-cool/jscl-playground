@@ -1,16 +1,9 @@
 // =====================================================================================
-function sleep(millis){
-  var date = new Date();
-  var curDate = null;
-  do { curDate = new Date(); }
-  while(curDate-date < millis);
-}
-// =====================================================================================
+var canvas = document.getElementById('canvas');
+
 var turtle = { x: 0, y: 0, angleInRadians: 0, penDown: false, penColor: "#000000", lineWidth: 2};
 
 var color = {black : "#ffffff", red : "#ff0000", green : "#00ff00", blue : "#0000ff", yellow : "#ffff00",  fuchsia : "#ff00ff",  aqua : "#00ffff"}
-
-var canvas = document.getElementById('canvas');
 
 if (canvas && canvas.getContext)  {     // does the browser support 'canvas'?
   	turtle.ct = canvas.getContext("2d");   // get drawing context
