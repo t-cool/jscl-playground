@@ -161,13 +161,14 @@
 
     function getCodes(){ return editor.getValue();}
 
-    $("#load-turtle").on('click',function(){
+    $("#load-turtle").on('click',function(){      
       $.getScript("js_canvas/turtle.js");
       $.get("lisp/turtle.lisp", function(e) {
           editor.setValue(e);
       }, "text");
     });
 
+    
     $("#load-three").on('click',function(){
       $.getScript("js_canvas/three.js");
       $.get("lisp/three.lisp", function(e) {
@@ -175,7 +176,11 @@
       }, "text");
     });
 
-    editor.setValue(";; Cmd-E: evaluate the highlighted S-expression\n;; F2: evaluate all the codes on the editor");
+    $.getScript("js_canvas/three.js");
+    $.get("lisp/three.lisp", function(e) {
+        editor.setValue(e);
+    }, "text");
+    
   });
 	</script>
 
