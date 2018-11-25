@@ -19,6 +19,9 @@
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <script src="js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="js/three.js"></script>
     
   </head>
   
@@ -37,8 +40,8 @@
               <li><a href="javascript:void(0)">Open</a>
                 <ul>
                   <li id="load-turtle">turtle</li>
-                  <li id="load-ball">ball</li>
-                  <li></li>		  
+                  <li id="load-three">three.js</li>
+                  <li></li>
                 </ul>		
               </li>
               <li class="separator"></li>	      		    
@@ -165,12 +168,11 @@
       }, "text");
     });
 
-    $("#load-ball").on('click',function(){
-      $.getScript("js_canvas/ball.js");
-      $.get("lisp/ball.lisp", function(e) {
+    $("#load-three").on('click',function(){
+      $.getScript("js_canvas/three.js");
+      $.get("lisp/three.lisp", function(e) {
           editor.setValue(e);
       }, "text");
-      $('#animateButton').append('<input type="button" value="animation" style="height: 20px">')
     });
 
     editor.setValue(";; Cmd-E: evaluate the highlighted S-expression\n;; F2: evaluate all the codes on the editor");
