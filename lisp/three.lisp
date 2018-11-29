@@ -1,5 +1,6 @@
-;; Cmd-E: send the code to REPL and evaluate it.
 ;; Three.js on JSCL
+;; Cmd-E: send the code to REPL and evaluate it.
+;; Please reload the Window when you try another example.
 
 ;; color
 (setf #j:threejs:material:color:r 1)

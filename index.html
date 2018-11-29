@@ -62,7 +62,7 @@
       <div id="left" style="float: left; height:600px;">
         <!-- editor -->    
         <form>
-	        <textarea id="code" name="code" style="float: left; width:500px; height:450px;"></textarea>
+	        <textarea id="code" name="code" style="float: left; width:500px; height:450px;">;; Please load the sample codes from "File" above.</textarea>
         </form>
         <!-- REPL -->    
         <div id="iframe-content" class="navbarCollapse" style="float: left; width:500px; height:200px;">
@@ -168,18 +168,12 @@
       }, "text");
     });
 
-    
     $("#load-three").on('click',function(){
       $.getScript("js_canvas/three.js");
       $.get("lisp/three.lisp", function(e) {
           editor.setValue(e);
       }, "text");
     });
-
-    $.getScript("js_canvas/three.js");
-    $.get("lisp/three.lisp", function(e) {
-        editor.setValue(e);
-    }, "text");
     
   });
 	</script>
