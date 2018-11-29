@@ -1,7 +1,7 @@
 var threejs = {};
 
 let renderer = new THREE.WebGLRenderer({canvas: document.querySelector("canvas")});
-let camera = new THREE.PerspectiveCamera(70, 1, 1, 1000);
+let camera = new THREE.PerspectiveCamera(100, 100, 100, 1000);
 camera.position.z = 400;
 
 // Make a scene
