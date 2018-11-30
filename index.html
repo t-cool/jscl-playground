@@ -41,15 +41,19 @@
                 <ul>
                   <li id="load-turtle">turtle</li>
                   <li id="load-three">three.js</li>
+                  <li id="load-clos">clos</li>
                   <li></li>
                 </ul>		
               </li>
+              <!--
               <li class="separator"></li>	      		    
               <li><a href="javascript:void(0)">Save</a></li>
               <li class="separator"></li>
               <li><a href="javascript:void(0)">Load</a></li>
+              -->
             </ul>
           </li>
+          <!--
           <li>Help
             <ul>
               <li>Usage</li>
@@ -57,6 +61,7 @@
               <li><a href="https://t-cool.github.io/">About us</a></li>
             </ul>
           </li>
+          -->
       </ul>
       </div>
       <div id="left" style="float: left; height:600px;">
@@ -171,6 +176,12 @@
     $("#load-three").on('click',function(){
       $.getScript("js_canvas/three.js");
       $.get("lisp/three.lisp", function(e) {
+          editor.setValue(e);
+      }, "text");
+    });
+
+    $("#load-clos").on('click',function(){
+      $.get("lisp/clos.lisp", function(e) {
           editor.setValue(e);
       }, "text");
     });
